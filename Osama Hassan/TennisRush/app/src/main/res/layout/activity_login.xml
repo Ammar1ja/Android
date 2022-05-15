@@ -67,7 +67,9 @@
            android:layout_marginBottom="16dp"
             android:ems="10"
             android:padding="12dp"
+            android:textColor="@color/black"
             android:hint="User Name"
+            android:textColorHint="#636363"
             android:background="@drawable/edit_text_border"
             android:inputType="textPersonName" />
 
@@ -77,6 +79,8 @@
             android:layout_height="wrap_content"
             android:hint="Password"
             android:padding="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="#636363"
             android:background="@drawable/edit_text_border"
             android:ems="10"
             android:inputType="textPassword" />
