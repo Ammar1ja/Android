@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                     alert.setTitle("Invalid Login");
                     alert.setMessage("Invalid username or password");
                     alert.setCancelable(true);
-                    alert.setPositiveButton("Yes", null);
+                    alert.setPositiveButton("Try Again  ", null);
                     alert.show();
                 }
             }
