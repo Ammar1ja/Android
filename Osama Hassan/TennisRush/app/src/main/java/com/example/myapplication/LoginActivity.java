@@ -1,13 +1,19 @@
 package com.example.myapplication;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -22,7 +28,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
-    RequestQueue queue ;
+    RequestQueue queue;
+    AlertDialog.Builder alert;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_login);
         queue = Volley.newRequestQueue(this);
+        alert = new AlertDialog.Builder(this);
         Button loginButton = findViewById(R.id.button);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,20 +60,30 @@ public class LoginActivity extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+                String res = response.trim();
+                if (res.equals("1")) {
+                    Intent intent = new Intent(getApplicationContext(), NavDrawerActivity.class);
+                    startActivity(intent);
+                } else {
+                    alert.setTitle("Invalid Login");
+                    alert.setMessage("Invalid username or password");
+                    alert.setCancelable(true);
+                    alert.setPositiveButton("Yes", null);
+                    alert.show();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
             }
-        })
-        {
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> reqParameters = new HashMap<String, String>();
-                reqParameters.put("user",userName);
-                reqParameters.put("pass",password);
+                reqParameters.put("user", userName);
+                reqParameters.put("pass", password);
                 return reqParameters;
             }
         };
